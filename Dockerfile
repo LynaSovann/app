@@ -1,33 +1,27 @@
-# Stage 1: Build the application
-FROM eclipse-temurin:17-jdk-alpine as build
+# BUILD STAGE
+
+# Specify base image for the build stage, which include Maven and JDK
+FROM maven:3.8.7-eclipse-temurin-19 AS build
 
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy the Maven wrapper and the pom.xml file to the container
-COPY mvnw* pom.xml ./
-COPY .mvn .mvn
+# Copy current local directory to /app which current directory in container
+COPY . .
 
-# Download the dependencies for the build
-RUN ./mvnw dependency:go-offline
+# Clean the existing build and package the application to create JAR file
+RUN mvn clean package
 
-# Copy the entire source code to the container
-COPY src src
+# RUN STAGE
 
-# Clean and package the application (skip tests if necessary)
-RUN ./mvnw clean package -DskipTests
+# Specify base image for final stage for running JAVA application
+#FROM eclipse-temurin:17.0.8_7-jre-alpine
+FROM eclipse-temurin:22.0.1_8-jre-ubi9-minimal
+# Copy the executable JAR file from build stage to /app directory in container and rename it to app.jar
+COPY --from=build /app/target/*.jar /app/app.jar
 
-# Stage 2: Run the application
-FROM eclipse-temurin:17-jre-alpine
-
-# Set the working directory inside the container
-WORKDIR /app
-
-# Copy the JAR file from the build stage
-COPY --from=build /app/target/*.jar app.jar
-
-# Expose the port that the application will run on
+# Expose the port on which your Spring application will run (change as per your application)
 EXPOSE 8080
 
-# Run the application
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Set the command to run your Spring application when the container starts
+CMD ["java", "-jar", "/app/app.jar"]
