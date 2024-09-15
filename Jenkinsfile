@@ -59,6 +59,8 @@
 //     }
 // }
 
+def gv
+
 pipeline {
     agent any 
     environment {
