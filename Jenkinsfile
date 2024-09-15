@@ -2,7 +2,7 @@ pipeline {
     agent any 
     environment {
         NEW_VERSION = '1.3.0'
-        SERVER_CREDENTIALS = credentials('')
+        // SERVER_CREDENTIALS = credentials('')
     }
     parameters {
         // string(name: 'VERSION', defaultValue: '', description: 'version to deploy on prod')
@@ -37,8 +37,4 @@ pipeline {
             }
         }
     }
-}
-
-node {
-    // groovy script
 }
