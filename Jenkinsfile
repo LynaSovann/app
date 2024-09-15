@@ -1,5 +1,3 @@
-def gv 
-
 pipeline {
     agent any 
     environment {
@@ -51,7 +49,7 @@ pipeline {
 
         stage("deploy") {
             script {
-                gv.deployApp();
+                gv.deployApp(params.VERSION);
             }
             // steps {
             //     echo 'deploying the application...'
