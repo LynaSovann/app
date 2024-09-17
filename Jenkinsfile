@@ -30,6 +30,8 @@ pipeline {
             // }
             steps {
               echo "building version ${NEW_VERSION}"
+              sh ' mvn clean install '
+              sh ' docker build -t springboot_jenkins . '
             }
         }
 
@@ -52,8 +54,7 @@ pipeline {
             //     gv.deployApp(params.VERSION);
             // }
             steps {
-                echo 'deploying the application...'
-                echo "deploying version ${params.VERSION}"
+                sh ' docker run --name springboot_jenkins -d -p 8080:8080 springboot_jenkins '
                 sh ' docker ps '
             }
         }
