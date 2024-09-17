@@ -34,17 +34,17 @@ pipeline {
         }
 
         stage("test") {
-            when {
-                expression {
-                    params.executeTests
-                }
-            }
+            // when {
+            //     expression {
+            //         params.executeTests
+            //     }
+            // }
             // script {
             //     gv.testApp();
             // }
-            // steps {
-            //     echo "testing the application"
-            // }
+            steps {
+                echo "testing the application"
+            }
         }
 
         stage("deploy") {
