@@ -14,20 +14,20 @@ pipeline {
     }
     stages {
 
-        stage("init") {
-            steps {
-                script {
-                    gv = load "script.groovy"
-                }
-            }
-        }
+        // stage("init") {
+        //     steps {
+        //         script {
+        //             gv = load "script.groovy"
+        //         }
+        //     }
+        // }
 
         stage("build") {
-            steps {
-                script {
-                    gv.buldApp()
-                }
-            }
+            // steps {
+            //     script {
+            //         gv.buldApp()
+            //     }
+            // }
             steps {
               echo "building version ${NEW_VERSION}"
             }
@@ -39,9 +39,9 @@ pipeline {
                     params.executeTests
                 }
             }
-            script {
-                gv.testApp();
-            }
+            // script {
+            //     gv.testApp();
+            // }
             // steps {
             //     echo "testing the application"
             // }
