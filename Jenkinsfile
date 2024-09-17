@@ -31,7 +31,7 @@ pipeline {
             //     gv.deployApp(params.VERSION);
             // }
             steps {
-                sh ' docker run --name springboot_jenkins -d -p 8080:8080 springboot_jenkins '
+                sh ' docker run --name springboot_jenkins -d -p 8081:8080 springboot_jenkins '
                 sh ' docker ps '
             }
         }
