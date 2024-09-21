@@ -1,32 +1,42 @@
 pipeline {
-    agent any 
+    agent {
+        label 'agentc'
+    }
     tools {
         maven 'maven'
     }
     stages {
 
-        stage("build") {
+        stage("test_running") {
             steps {
-              sh ' mvn clean install '
-              sh ' docker build -t springboot_jenkins . '
-            }
+            echo "🚀🤖 Running..."
+            echo "Running on $NODE_NAME"
+          }
         }
 
-        stage("test") {
-            steps {
-                echo "testing the application"
-            }
-        }
+        // stage("build") {
+        //     steps {
+        //       sh ' mvn clean install '
+        //       sh ' docker build -t springboot_jenkins . '
+        //     }
+        // }
 
-        stage("deploy") {
-            steps {
-                sh 'docker start springboot_jenkins || docker run --name springboot_jenkins -d -p 8081:8080 springboot_jenkins '
-                sh ' docker ps '
-                echo '🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀'
-                echo '🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀'
-                echo '🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀'
-            }
-        }
+        // stage("test") {
+        //     steps {
+        //         echo "testing the application"
+        //     }
+        // }
+
+        // stage("deploy") {
+        //     steps {
+        //         sh 'docker start springboot_jenkins || docker run --name springboot_jenkins -d -p 8081:8080 springboot_jenkins '
+        //         sh ' docker ps '
+        //         echo '🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀'
+        //         echo '🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀'
+        //         echo '🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀'
+        //     }
+        // }
+
     }
 }
 
