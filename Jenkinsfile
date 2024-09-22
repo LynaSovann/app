@@ -33,8 +33,15 @@ pipeline {
 
             steps {
                 script {
+                    echo "🚀 Building docker image..."
                     sh ' docker build -t ${DOCKER_IMAGE} .'
                     sh ' docker images | grep -i ${IMAGE} '
+                    
+                    echo "🚀 Log in Docker hub using Jenkins credentials..."
+                    withCredentials([usernamePassword(credentialsId: '${DOCKER_CREDENTIALS_ID}', passwordVariable: 'DOCKER_PASS', usernameVariable: 'DOCKER_USER')]) {
+                      // sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+                      sh 'echo "${DOCKER_PASS} ${DOCKER_USER}" '
+                    }
                 }
             }
             
