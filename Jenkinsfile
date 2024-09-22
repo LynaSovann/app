@@ -14,7 +14,7 @@ pipeline {
         GIT_BRANCH = "argocd"
         MANIFEST_REPO = "manifest-repo"
         MANIFEST_FILE_PATH = "manifests/deployment.yaml"
-        GIT_CREDENTIALS_ID = 'docker_hub'
+        GIT_CREDENTIALS_ID = 'https_access_token'
     }
 
     stages {
@@ -85,15 +85,24 @@ pipeline {
             }
         }
 
-        // stage("push changes to the manifest") {
-        //     steps {
-        //         script {
-        //             dir("${MANIFEST_REPO}") {
-        //                 withCredentials()
-        //             }
-        //         }
-        //     }
-        // }
+        stage("push changes to the manifest") {
+            steps {
+                script {
+                    dir("${MANIFEST_REPO}") {
+                        withCredentials([usernamePassword(credentialsId: GIT_CREDENTIALS_ID, passwordVariable: 'GIT_PASS', usernameVariable: 'GIT_USER')]) {
+                            sh """
+                            git config --global user.name "LynaSovann"
+                            git config --global user.email "sovannlyna2004@gmail.com"
+                            echo "🚀 Checking..."
+                            git branch
+                            ls -l 
+                            pwd 
+                            """
+                        }
+                    }
+                }
+            }
+        }
         
 
     }
