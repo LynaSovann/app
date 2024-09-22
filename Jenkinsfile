@@ -16,12 +16,15 @@ pipeline {
           }
         }
 
-        // stage("build") {
-        //     steps {
-        //       sh ' mvn clean install '
-        //       sh ' docker build -t springboot_jenkins . '
-        //     }
-        // }
+        stage("build") {
+            steps 
+              echo "🚀 Building the application..."
+              sh 'ls -l'
+              sh ' mvn clean install '
+              ls 'ls -l'
+              // sh ' docker build -t springboot_jenkins . '
+            }
+        }
 
         // stage("test") {
         //     steps {
