@@ -42,6 +42,8 @@ pipeline {
                       sh 'echo "${DOCKER_PASS} ${DOCKER_USER}" '
                       sh "docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}"
                     }
+                    echo "🚀 Pushing the image to Docker hub"
+                    sh 'docker push ${DOCKER_IMAGE}'
                     
                 }
             }
