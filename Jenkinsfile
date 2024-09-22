@@ -12,7 +12,9 @@ pipeline {
 
         GIT_MANIFEST_REPO = "https://github.com/LynaSovann/springboot_manifest.git"
         GIT_BRANCH = "argocd"
-        
+        MANIFEST_REPO = "manifest-repo"
+        MANIFEST_FILE_PATH = "manifests/deployment.yaml"
+        GIT_CREDENTIALS_ID = 'docker_hub'
     }
 
     stages {
@@ -54,17 +56,36 @@ pipeline {
             }
         }
 
-        stage("Update the manifest file") {
+        stage("Cloning the manifest file") {
             steps {
                 sh "pwd"
                 sh "ls -l"
                 echo "🚀 Updating the image of the Manifest file..."
-                sh "git clone -b ${GIT_BRANCH} ${GIT_MANIFEST_REPO} manifest-repo"
-                sh "rm -rf springboot_manifest"
+                sh "git clone -b ${GIT_BRANCH} ${GIT_MANIFEST_REPO} ${MANIFEST_REPO}"
                 sh "ls -l"
             }
         }
 
+        stage("Updating the manifest file") {
+            steps {
+                script {
+                    echo "🚀 Update the image in the deployment manifest..."
+                    sh """
+                    sed -i 's|image: ${IMAGE}:.*|image: ${DOCKER_IMAGE}|' ${MANIFEST_REPO}/${MANIFEST_FILE_PATH}
+                    """
+                }
+            }
+        }
+
+        stage("push changes to the manifest") {
+            steps {
+                script {
+                    dir("${MANIFEST_REPO}") {
+                        withCredentials()
+                    }
+                }
+            }
+        }
         
 
     }
