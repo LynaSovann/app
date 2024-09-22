@@ -5,6 +5,15 @@ pipeline {
     tools {
         maven 'maven'
     }
+    environment {
+        IMAGE = "lynakiddy/springboot-img"
+        DOCKER_IMAGE = "${IMAGE}:${BUILD_NUMBER}"
+        DOCKER_CREDENTIALS_ID = 'docker_hub'
+
+        GIT_MANIFEST_REPO = "https://github.com/LynaSovann/springboot_manifest.git"
+        GIT_BRANCH = "argocd"
+    }
+
     stages {
 
         stage("checkout") {
@@ -25,11 +34,6 @@ pipeline {
         }
 
         stage("build and push docker image") {
-            environment {
-                IMAGE = "lynakiddy/springboot-img"
-                DOCKER_IMAGE = "lynakiddy/springboot-img:${BUILD_NUMBER}"
-                DOCKER_CREDENTIALS_ID = 'docker_hub'
-            }
 
             steps {
                 script {
@@ -51,10 +55,15 @@ pipeline {
 
         stage("Update the manifest file") {
             steps {
+                sh "pwd"
+                sh "ls -l"
                 echo "🚀 Updating the image of the Manifest file..."
+                sh "git clone -b ${GIT_BRANCH} ${GIT_MANIFEST_REPO}"
+                sh "ls -l"
             }
         }
 
+        
 
     }
 }
