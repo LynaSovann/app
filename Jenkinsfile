@@ -12,6 +12,7 @@ pipeline {
 
         GIT_MANIFEST_REPO = "https://github.com/LynaSovann/springboot_manifest.git"
         GIT_BRANCH = "argocd"
+        
     }
 
     stages {
@@ -58,7 +59,7 @@ pipeline {
                 sh "pwd"
                 sh "ls -l"
                 echo "🚀 Updating the image of the Manifest file..."
-                sh "git clone -b ${GIT_BRANCH} ${GIT_MANIFEST_REPO}"
+                sh "git clone -b ${GIT_BRANCH} ${GIT_MANIFEST_REPO} manifest-repo"
                 sh "ls -l"
             }
         }
