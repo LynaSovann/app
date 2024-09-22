@@ -85,15 +85,15 @@ pipeline {
             }
         }
 
-        stage("push changes to the manifest") {
-            steps {
-                script {
-                    dir("${MANIFEST_REPO}") {
-                        withCredentials()
-                    }
-                }
-            }
-        }
+        // stage("push changes to the manifest") {
+        //     steps {
+        //         script {
+        //             dir("${MANIFEST_REPO}") {
+        //                 withCredentials()
+        //             }
+        //         }
+        //     }
+        // }
         
 
     }
