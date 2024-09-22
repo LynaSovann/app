@@ -20,7 +20,7 @@ pipeline {
         stage("clean package") {
             steps {
               echo "🚀 Building the application..."
-              sh ' mvn clean install > /dev/null'
+              sh ' mvn clean install '
             }
         }
 
@@ -38,7 +38,7 @@ pipeline {
                     sh ' docker images | grep -i ${IMAGE} '
                     
                     echo "🚀 Log in Docker hub using Jenkins credentials..."
-                    withCredentials([usernamePassword(credentialsId: '${DOCKER_CREDENTIALS_ID}', passwordVariable: 'DOCKER_PASS', usernameVariable: 'DOCKER_USER')]) {
+                    withCredentials([usernamePassword(credentialsId: DOCKER_CREDENTIALS_ID, passwordVariable: 'DOCKER_PASS', usernameVariable: 'DOCKER_USER')]) {
                       // sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
                       sh 'echo "${DOCKER_PASS} ${DOCKER_USER}" '
                     }
