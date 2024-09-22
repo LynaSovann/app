@@ -97,6 +97,10 @@ pipeline {
                             git branch
                             ls -l 
                             pwd 
+                            echo "🚀 Start pushing to manifest repo"
+                            git add ${MANIFEST_FILE_PATH}
+                            git commit -m "Update image to ${DOCKER_IMAGE}"
+                            git push https://${GIT_USER}:${GIT_PASS}@github.com/LynaSovann/springboot_manifest.git
                             """
                         }
                     }
