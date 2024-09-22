@@ -26,8 +26,8 @@ pipeline {
 
         stage("build and push docker image") {
             environment {
-                IMAGE = "lynakiddy/nextjs-img"
-                DOCKER_IMAGE = "lynakiddy/nextjs-img:${BUILD_NUMBER}"
+                IMAGE = "lynakiddy/springboot-img"
+                DOCKER_IMAGE = "lynakiddy/springboot-img:${BUILD_NUMBER}"
                 DOCKER_CREDENTIALS_ID = 'docker_hub'
             }
 
