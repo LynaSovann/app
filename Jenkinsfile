@@ -24,6 +24,7 @@ pipeline {
             echo "🚀🚀🚀🚀 Running..."
             echo "Running on $NODE_NAME"
             echo "$BUILD_NUMBER"
+            sh ' docker image prune --all '
             sh 'pwd'
             sh 'ls'
           }
