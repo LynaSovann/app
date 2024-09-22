@@ -11,19 +11,33 @@ pipeline {
             steps {
             echo "🚀🚀🚀🚀 Running..."
             echo "Running on $NODE_NAME"
+            echo "$BUILD_NUMBER"
             sh 'pwd'
             sh 'ls'
           }
         }
 
-        stage("build") {
+        stage("clean package") {
             steps {
               echo "🚀 Building the application..."
-              sh 'ls -l'
               sh ' mvn clean install '
-              ls 'ls -l'
-              // sh ' docker build -t springboot_jenkins . '
             }
+        }
+
+        stage("build and push docker image") {
+            environment {
+                IMAGE = "lynakiddy/nextjs-img"
+                DOCKER_IMAGE = "lynakiddy/nextjs-img:${BUILD_NUMBER}"
+                DOCKER_CREDENTIALS_ID = 'docker_hub'
+            }
+
+            steps {
+                script {
+                    sh ' docker build -t ${DOCKER_IMAGE} .'
+                    sh ' docker images | grep -i ${IMAGE} '
+                }
+            }
+            
         }
 
         // stage("test") {
