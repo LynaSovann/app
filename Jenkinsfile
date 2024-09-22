@@ -47,7 +47,12 @@ pipeline {
                     
                 }
             }
-            
+        }
+
+        stages("Update the manifest file") {
+            steps {
+                echo "🚀 Updating the image of the Manifest file..."
+            }
         }
 
 
