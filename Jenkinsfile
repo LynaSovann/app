@@ -29,12 +29,12 @@ pipeline {
           }
         }
 
-        // stage("clean package") {
-        //     steps {
-        //       echo "🚀 Building the application..."
-        //       sh ' mvn clean install '
-        //     }
-        // }
+        stage("clean package") {
+            steps {
+              echo "🚀 Building the application..."
+              sh ' mvn clean install '
+            }
+        }
 
         stage("build and push docker image") {
 
@@ -63,7 +63,7 @@ pipeline {
                 echo "🚀 Checking if the manifest repository exists and removing it if necessary..."
                 sh '''
                     if [ -d "${MANIFEST_REPO}" ]; then
-                        echo "⚠️ ${MANIFEST_REPO} exists, removing it..."
+                        echo "🚀 ${MANIFEST_REPO} exists, removing it..."
                         rm -rf ${MANIFEST_REPO}
                     fi
                 '''
