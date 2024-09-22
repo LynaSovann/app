@@ -20,7 +20,7 @@ pipeline {
         stage("clean package") {
             steps {
               echo "🚀 Building the application..."
-              sh ' mvn clean install '
+              sh ' mvn clean install > /dev/null'
             }
         }
 
