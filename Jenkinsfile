@@ -17,7 +17,7 @@ pipeline {
         }
 
         stage("build") {
-            steps 
+            steps {
               echo "🚀 Building the application..."
               sh 'ls -l'
               sh ' mvn clean install '
