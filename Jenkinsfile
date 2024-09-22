@@ -7,10 +7,12 @@ pipeline {
     }
     stages {
 
-        stage("test_running") {
+        stage("checkout") {
             steps {
-            echo "🚀🤖 Running..."
+            echo "🚀🚀🚀🚀 Running..."
             echo "Running on $NODE_NAME"
+            sh 'pwd'
+            sh 'ls'
           }
         }
 
