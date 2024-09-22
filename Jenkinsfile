@@ -27,12 +27,12 @@ pipeline {
           }
         }
 
-        stage("clean package") {
-            steps {
-              echo "🚀 Building the application..."
-              sh ' mvn clean install '
-            }
-        }
+        // stage("clean package") {
+        //     steps {
+        //       echo "🚀 Building the application..."
+        //       sh ' mvn clean install '
+        //     }
+        // }
 
         stage("build and push docker image") {
 
@@ -60,6 +60,7 @@ pipeline {
                 sh "ls -l"
                 echo "🚀 Updating the image of the Manifest file..."
                 sh "git clone -b ${GIT_BRANCH} ${GIT_MANIFEST_REPO} manifest-repo"
+                sh "rm -rf springboot_manifest"
                 sh "ls -l"
             }
         }
