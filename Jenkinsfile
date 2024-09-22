@@ -60,11 +60,19 @@ pipeline {
             steps {
                 sh "pwd"
                 sh "ls -l"
+                echo "🚀 Checking if the manifest repository exists and removing it if necessary..."
+                sh '''
+                    if [ -d "${MANIFEST_REPO}" ]; then
+                        echo "⚠️ ${MANIFEST_REPO} exists, removing it..."
+                        rm -rf ${MANIFEST_REPO}
+                    fi
+                '''
                 echo "🚀 Updating the image of the Manifest file..."
                 sh "git clone -b ${GIT_BRANCH} ${GIT_MANIFEST_REPO} ${MANIFEST_REPO}"
                 sh "ls -l"
             }
         }
+
 
         stage("Updating the manifest file") {
             steps {
