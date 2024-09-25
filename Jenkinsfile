@@ -1,41 +1,32 @@
 pipeline {
     agent {
-        label 'agentc'
+      label 'agentc'
     }
     tools {
-        maven 'maven'
+        nodejs 'nodejs'
     }
     environment {
-        IMAGE = "lynakiddy/springboot-img"
+        IMAGE = "lynakiddy/nextjs-img"
         DOCKER_IMAGE = "${IMAGE}:${BUILD_NUMBER}"
         DOCKER_CREDENTIALS_ID = 'docker_hub'
-
-        GIT_MANIFEST_REPO = "https://github.com/LynaSovann/springboot_manifest.git"
+        GIT_MANIFEST_REPO = "https://github.com/LynaSovann/nextjs_manifest.git"
         GIT_BRANCH = "argocd"
         MANIFEST_REPO = "manifest-repo"
         MANIFEST_FILE_PATH = "manifests/deployment.yaml"
         GIT_CREDENTIALS_ID = 'https_access_token'
+        
     }
-
     stages {
-
-        stage("checkout") {
-            steps {
-            echo "🚀🚀🚀🚀 Running..."
-            echo "Running on $NODE_NAME"
-            echo "$BUILD_NUMBER"
-            sh ' docker image prune --all '
-            sh 'pwd'
-            sh 'ls'
-          }
+      stage("checkout") {
+        steps {
+          echo "🚀🤖 Running..."
+          echo "Running on $NODE_NAME"
+          echo "${BUILD_NUMBER}"
+          sh ' docker image prune --all '
+          sh ' pwd '
+          sh 'ls'
         }
-
-        stage("clean package") {
-            steps {
-              echo "🚀 Building the application..."
-              sh ' mvn clean install '
-            }
-        }
+      }
 
         stage("build and push docker image") {
 
@@ -74,7 +65,6 @@ pipeline {
             }
         }
 
-
         stage("Updating the manifest file") {
             steps {
                 script {
@@ -86,11 +76,11 @@ pipeline {
             }
         }
 
-       stage("push changes to the manifest") {
+        stage("push changes to the manifest") {
             steps {
                 script {
                     dir("${MANIFEST_REPO}") {
-                        withCredentials([usernamePassword(credentialsId: 'https_access_token', passwordVariable: 'GIT_PASS', usernameVariable: 'GIT_USER')]) {
+                        withCredentials([usernamePassword(credentialsId: GIT_CREDENTIALS_ID, passwordVariable: 'GIT_PASS', usernameVariable: 'GIT_USER')]) {
                             sh """
                             git config --global user.name "LynaSovann"
                             git config --global user.email "sovannlyna2004@gmail.com"
@@ -98,20 +88,18 @@ pipeline {
                             git branch
                             ls -l 
                             pwd 
+
                             echo "🚀 Start pushing to manifest repo"
                             git add ${MANIFEST_FILE_PATH}
                             git commit -m "Update image to ${DOCKER_IMAGE}"
-                            git push https://${GIT_USER}:${GIT_PASS}@github.com:LynaSovann/springboot_manifest.git
+                            git push https://${GIT_USER}:${GIT_PASS}@github.com/LynaSovann/nextjs_manifest.git
                             """
                         }
                     }
                 }
             }
         }
-
         
-
-    }
+  }
 }
-
 
